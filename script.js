@@ -1,7 +1,7 @@
 const form = document.querySelector("form");
 const loading = document.querySelector(".loading");
-const urlContainer = document.querySelector(".urlContainer");
-let links = form.querySelectorAll(".link");
+
+let link = form.link;
 let timePushAds = form.timePushAds;
 let timeShowingPopUp = form.timeShowingPopUp;
 let isPublic = form.isPublic;
@@ -11,17 +11,17 @@ let length = 1;
 const crosHeader = "https://crossanywhereheaders.herokuapp.com/";
 
 const contentType = "Application/json";
-form.addEventListener("submit", async e => {
+form.addEventListener("submit", HandelSubmit);
+
+async function HandelSubmit(e) {
   e.preventDefault();
-  // const files = document.getElementById("files");
-  // const formData = new FormData();
-  let linksArr = grapValuesLink();
-  console.log(linksArr);
+
+  console.log(link);
   loading.classList.add("display");
 
   try {
-    if (links[0].value) {
-      res = await fetch(
+    if (link.value) {
+      fetch(
         crosHeader + "https://monitizegame.herokuapp.com/cpa_monitize/edit",
         {
           method: "PUT",
@@ -30,7 +30,7 @@ form.addEventListener("submit", async e => {
             "Content-Type": contentType
           },
           body: JSON.stringify({
-            links: linksArr,
+            link: link["value"],
             timePushAds: timePushAds["value"],
             timeShowingPopUp: timeShowingPopUp["value"],
             isPublic: isPublic["checked"],
@@ -40,10 +40,10 @@ form.addEventListener("submit", async e => {
         }
       )
         .then(res => res.json())
-        .then(res => {
-          console.log(res);
+        .then(data => {
+          console.log(data);
 
-          UpdateUi(res);
+          UpdateUi(data);
           loading.classList.remove("display");
         })
         .catch(e => {
@@ -55,7 +55,8 @@ form.addEventListener("submit", async e => {
     console.log(e);
     loading.classList.remove("display");
   }
-});
+}
+
 async function fetchData() {
   console.log("fetching ....");
   loading.classList.add("display");
@@ -78,16 +79,15 @@ async function fetchData() {
     });
 }
 function UpdateUi(data) {
-  // createUrlHtml(data.imgAds.length, data.links);
   timePushAds.value = data.timePushAds;
   timeShowingPopUp.value = data.timeShowingPopUp;
   isPublic.checked = data.isPublic;
   showPopUp.checked = data.showPopUp;
   byClicking.checked = data.byClicking;
+  link.value = data.link;
   checkByClicking();
 }
 
-byClicking.addEventListener("click", checkByClicking);
 function checkByClicking() {
   if (byClicking.checked) {
     timePushAds.classList.add("disabled");
@@ -104,10 +104,9 @@ const files = document.getElementById("files");
 const upload = () => {
   const formData = new FormData();
   loading.classList.add("display");
-  for (let i = 0; i < files.files.length; i++) {
-    const file = files.files[i];
-    formData.append("avatar", file);
-  }
+
+  formData.append("avatar", files.files[0]);
+
   fetch(
     crosHeader + "https://monitizegame.herokuapp.com/cpa_monitize/img_ads",
     {
@@ -122,7 +121,6 @@ const upload = () => {
       // if the response is a JSON object
     )
     .then(res => {
-      length = res.length;
       // createUrlHtml(length, res.data);
       console.log(res);
       loading.classList.remove("display");
@@ -135,24 +133,4 @@ const onSelectFile = () => upload();
 // Add a listener on your input
 // It will be triggered when a file will be selected
 files.addEventListener("change", onSelectFile, false);
-
-// function createUrlHtml(length, dataLinks) {
-//   let urlTags = "";
-//   for (let i = 0; i < length; i++) {
-//     urlTags += `<div>
-//                  <label for="link">URL</label>
-//                  <input type="url" id="link" class="link" required placeholder="your Link Here !" value="${dataLinks[i]}" />
-//                 </div>`;
-//   }
-//   urlContainer.innerHTML = urlTags;
-// }
-// createUrlHtml(length);
-///////////Values Links
-function grapValuesLink(e) {
-  links = [...form.querySelectorAll(".link")];
-  const linksValue = [...form.querySelectorAll(".link")].map(
-    link => link.value
-  );
-
-  return linksValue;
-}
+byClicking.addEventListener("click", checkByClicking);
