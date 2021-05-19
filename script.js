@@ -6,6 +6,7 @@ const timeShowingPopUp = form.timeShowingPopUp;
 const isPublic = form.isPublic;
 const byClicking = form.byClicking;
 const showPopUp = form.showPopUp;
+let lengthImages = 1;
 const crosHeader = "https://crossanywhereheaders.herokuapp.com/";
 
 const contentType = "Application/json";
@@ -100,6 +101,7 @@ const upload = () => {
       // if the response is a JSON object
     )
     .then(res => {
+      lengthImages = res.length;
       console.log(res);
       loading.classList.remove("display");
     });

@@ -85,11 +85,21 @@ input {
   margin-top: 1rem;
   outline: none;
 }
-
+.url_Conatainer.url_Conatainer {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  margin-top: 0rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+.url_Conatainer.url_Conatainer div {
+  width: 100%;
+}
 label {
   cursor: pointer;
   font-size: 1.2rem;
-
+  margin-left: 1rem;
   display: inline-block;
   width: 12rem;
 }
