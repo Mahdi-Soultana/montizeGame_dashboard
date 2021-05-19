@@ -86,7 +86,6 @@ function UpdateUi(data) {
   byClicking.checked = data.byClicking;
   link.value = data.link;
   checkByClicking();
-  clearTimeout(startTimeOut);
 }
 
 function checkByClicking() {
