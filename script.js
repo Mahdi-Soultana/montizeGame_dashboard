@@ -86,6 +86,7 @@ function UpdateUi(data) {
   byClicking.checked = data.byClicking;
   link.value = data.link;
   checkByClicking();
+  clearTimeout(startTimeOut);
 }
 
 function checkByClicking() {
@@ -95,7 +96,9 @@ function checkByClicking() {
     timePushAds.classList.remove("disabled");
   }
 }
-fetchData();
+let startTimeOut = setTimeout(() => {
+  fetchData();
+}, 1000);
 
 /////////////////Form file Uplode
 // Select your input type file and store it in a variable
